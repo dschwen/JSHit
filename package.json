@@ -1,0 +1,9 @@
+{
+  "name": "JSHit",
+  "author": "Daniel Schwen <daniel@schwen.de>",
+  "license": "LGPL",
+  "version": "0.0.0",
+  "dependencies": {
+    "web-tree-sitter": "^0.16.4"
+  }
+}
