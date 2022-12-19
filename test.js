@@ -27,7 +27,7 @@ root.block("Kernels/dt")['other_coefficient'] = '{{diff_coeff}}';
 text = root.print();
 console.log(text);
 
-HITParse(text).then((r) => {
+HITParse(text).then(r => {
   console.log(r.print());
 
   r.set('diff_coeff', 123.4);

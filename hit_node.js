@@ -62,7 +62,7 @@ module.exports = class HITNode {
     this.#subblocks[block.#name] = block;
   }
 
-  // prepare a tree to enable teh set method for {{}} placeholder values
+  // prepare a tree to enable the set method for {{}} placeholder values
   index() {
     // index this blocks parameters
     for (var name of Object.keys(this)) {
