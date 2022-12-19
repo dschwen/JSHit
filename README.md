@@ -36,7 +36,7 @@ A tree can be serialized into a HIT string using the `print` method.
 
 ### `insert(node)`
 
-A seperately constructed node or subtree can be inserted to the current node using the `insert` method.
+A seperately constructed node or subtree can be inserted as a child to the current node using the `insert` method.
 
 ```
 const HITNode = require("./hit_node");
@@ -62,6 +62,10 @@ will print
   []
 []
 ```
+
+### `merge(node)`
+
+`merge` will combine the contents of `node` into the current node adding parameters and subblocks of `node` as parameters and subblocks of the current node.
 
 ## Examples
 

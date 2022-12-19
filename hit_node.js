@@ -62,6 +62,19 @@ module.exports = class HITNode {
     this.#subblocks[block.#name] = block;
   }
 
+  // combine trees
+  merge(node) {
+    // merge in parameters
+    for (var name of Object.keys(node)) {
+      this[name] = node[name];
+    }
+
+    // merge in subblocks
+    for (var block in node.#subblocks) {
+      this.#subblocks[block] = node.#subblocks[block];
+    }
+  }
+
   // prepare a tree to enable the set method for {{}} placeholder values
   index() {
     // index this blocks parameters
@@ -79,16 +92,6 @@ module.exports = class HITNode {
     // index subblocks
     for (var block in this.#subblocks) {
       this.#subblocks[block].index();
-
-      // propagate index up
-      var subindex = this.#subblocks[block].#index;
-      for (var item in subindex) {
-        if (item in this.#index) {
-          this.#index[item] = this.#index[item].concat(subindex[item]);
-        } else {
-          this.#index[item] = subindex[item];
-        }
-      }
     }
   }
 
@@ -98,8 +101,11 @@ module.exports = class HITNode {
       for (var idx of this.#index[key]) {
         idx[0][idx[1]] = value;
       }
-    } else {
-      throw new Error("Placeholder value not found");
+    }
+
+    // recurse through subblocks
+    for (var block in this.#subblocks) {
+      this.#subblocks[block].set(key, value);
     }
   }
 }
