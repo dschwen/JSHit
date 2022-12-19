@@ -17,7 +17,7 @@ function HITParse(text) {
             if (child.children.length != 3 || child.child(0).type != 'parameter_name' || child.child(2).type != 'parameter_value') {
               throw new Error("Malformed parameter");
             }
-            root.get(path)[child.child(0).text] = child.child(2).text;
+            root.block(path)[child.child(0).text] = child.child(2).text;
           } else if (child.type === 'block' || child.type === 'top_block') {
             if (child.children.length < 2 || child.child(1).type != 'block_path') {
               throw new Error("Malformed block");
@@ -27,6 +27,9 @@ function HITParse(text) {
         }
       }
       traverse(tree.rootNode);
+
+      // index potential placeholder values
+      root.index();
 
       // return the HITNode tree
       return root;

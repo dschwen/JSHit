@@ -3,12 +3,12 @@ const HITParse = require("./hit_parser");
 
 root = new HITNode();
 
-all = root.get("Modules/TensorMechanics/Master/all");
+all = root.block("Modules/TensorMechanics/Master/all");
 all['stress'] = 'FINTE'
 all['add_variables'] = true;
 all['generate_outputs'] = ['von_mises_stress', 'stress_xx', 'stress_yy'];
 
-kernels = root.get("Kernels");
+kernels = root.block("Kernels");
 
 diffusion = new HITNode('diffusion')
 diffusion.type = 'Diffusion';
@@ -21,9 +21,17 @@ dt.variable = 'u';
 kernels.insert(diffusion);
 kernels.insert(dt);
 
-root.get("Kernels/diffusion")['coefficient'] = 5.9;
+root.block("Kernels/diffusion")['coefficient'] = '{{diff_coeff}}';
+root.block("Kernels/dt")['other_coefficient'] = '{{diff_coeff}}';
 
 text = root.print();
 console.log(text);
 
-HITParse(text).then((r) => console.log(r.print()));
+HITParse(text).then((r) => {
+  console.log(r.print());
+
+  r.set('diff_coeff', 123.4);
+
+  console.log(r.print());
+});
+
