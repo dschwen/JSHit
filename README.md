@@ -95,8 +95,6 @@ will print
 []
 ```
 
-###
-
 ### Parsing an input file
 
 Given an input file text `input_text` a modifiable HIT tree can be build using `HITParse`
@@ -104,8 +102,44 @@ Given an input file text `input_text` a modifiable HIT tree can be build using `
 ```
 const HITParse = require("./hit_parser");
 
-HITParse(input_text).then(root => {
-  // do something with the root node
+HITParse("[Executioner]\ntype=Steady\n[Timestepper]type=IterationDT\ndt=1.0\nfactor={{my_factor}}\n[]\n[]").then(root => {
+  console.log(root.print());
 });
+```
 
+will print
+
+```
+[Executioner]
+  type = Steady
+  [Timestepper]
+    type = IterationDT
+    dt = 1.0
+    factor = {{my_factor}}
+  []
+[]
+```
+
+### Substituting `{{placeholder}}` values
+
+```
+const HITParse = require("./hit_parser");
+
+HITParse("[Executioner]\ntype=Steady\n[Timestepper]type=IterationDT\ndt=1.0\nfactor={{my_factor}}\n[]\n[]").then(root => {
+  root.set('my_factor', 123.0);
+  console.log(root.print());
+});
+```
+
+will print
+
+```
+[Executioner]
+  type = Steady
+  [Timestepper]
+    type = IterationDT
+    dt = 1.0
+    factor = 123
+  []
+[]
 ```
